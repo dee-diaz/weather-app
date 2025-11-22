@@ -1,3 +1,34 @@
+:root {
+  --linear-gradient-bg: linear-gradient(
+    12deg,
+    rgba(25, 28, 69, 0.8) 14.59%,
+    rgba(43, 49, 120, 0.55) 66.14%,
+    rgba(62, 69, 171, 0.7) 109.2%
+  );
+
+  --clr-bg-card-light: #343963;
+  --clr-bg-card-dark: #1c1f35;
+  --clr-text-primary: #d8d9ed;
+  --clr-text-secondary: #babcd9;
+  --clr-divider: #6569c8;
+}
+
+@font-face {
+  font-family: 'ClashGrotesk';
+  src: url('./assets/fonts/ClashGrotesk-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ClashGrotesk';
+  src: url('./assets/fonts/ClashGrotesk-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+
 *,
 *::before,
 *::after {
@@ -8,6 +39,7 @@ html {
   -moz-text-size-adjust: none;
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
+  scroll-behavior: smooth;
 }
 
 body,
@@ -28,6 +60,7 @@ ul {
 }
 
 body {
+  font-family: 'ClashGrotesk', sans-serif;
   min-height: 100vh;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -49,10 +82,12 @@ h2,
 h3,
 h4 {
   text-wrap: balance;
+  margin: 0;
 }
 
 p {
   text-wrap: pretty;
+  margin: 0;
 }
 
 p,
@@ -75,6 +110,12 @@ button {
   border: none;
   cursor: pointer;
   text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
 }
 
 input,
@@ -92,5 +133,32 @@ select {
 @media (prefers-reduced-motion: no-preference) {
   html {
     interpolate-size: allow-keywords;
+  }
+}
+
+.container {
+  width: 100%;
+  padding: 0 16px;
+  margin-inline: auto;
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+  .container {
+    max-width: 90%;
+    padding: 0;
+  }
+}
+
+/* Desktops */
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
   }
 }
