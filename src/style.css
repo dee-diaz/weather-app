@@ -546,6 +546,10 @@ select {
     padding: 0 1rem;
     margin-bottom: 4rem;
 
+    svg {
+      transform: translateY(2px);
+    }
+
     .text-info {
       p {
         font-size: 1.25rem;
