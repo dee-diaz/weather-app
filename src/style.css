@@ -235,8 +235,15 @@ select {
     }
 
     .autocomplete-results {
+      height: 0;
+      overflow: hidden;
       position: absolute;
       width: 100%;
+      transition: height 0.4s ease-out;
+
+      &.open {
+        height: auto;
+      }
       > ul {
         display: grid;
         color: var(--clr-text-primary);

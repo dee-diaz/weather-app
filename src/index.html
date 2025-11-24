@@ -22,13 +22,13 @@
               <img class="logo" src="./assets/img/logo.svg" alt="Logo" />
 
               <div class="temperature-toggle">
-                <span class="temp-label">°F</span>
+                <span data-scale="fahrenheit" class="temp-label">°F</span>
 
                 <button class="toggle-btn active" id="tempToggle">
                   <div class="toggle-slider"></div>
                 </button>
 
-                <span class="temp-label active">°C</span>
+                <span data-scale="celsius" class="temp-label active">°C</span>
               </div>
 
               <div class="search-wrapper">
@@ -51,16 +51,12 @@
                   placeholder="Search for a city"
                   class="search-input"
                   name="q"
+                  id="searchInput"
+                  autocomplete="off"
                 />
 
                 <div class="autocomplete-results" id="autocompleteResults">
-                  <ul>
-                    <li>Moscow</li>
-                    <li>Moscow</li>
-                    <li>Moscow</li>
-                    <li>Moscow</li>
-                    <li>Moscow</li>
-                  </ul>
+                  <ul></ul>
                 </div>
               </div>
             </div>
