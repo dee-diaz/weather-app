@@ -298,6 +298,7 @@ select {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
+  margin-bottom: 2.5rem;
 
   .card {
     display: flex;
@@ -346,6 +347,34 @@ select {
 
     &:first-child {
       grid-column: span 2;
+    }
+  }
+}
+
+.weather-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 0 0.5rem;
+  margin-bottom: 2.5rem;
+
+  .weather-details-item {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .text-info {
+    p {
+      color: var(--clr-text-secondary);
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    span {
+      color: var(--clr-text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
     }
   }
 }
@@ -441,6 +470,19 @@ select {
 
       &:first-child {
         grid-column: span 2;
+      }
+    }
+  }
+
+  .weather-details {
+    grid-template-columns: repeat(5, 1fr);
+    padding: 0 1rem;
+    margin-bottom: 4rem;
+
+    .text-info {
+      p {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
       }
     }
   }
