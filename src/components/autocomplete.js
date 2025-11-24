@@ -18,6 +18,8 @@ export function showAutocompleteOptions() {
         }
       });
 
+      if (filtered.length === 0) autocompleteResults.classList.remove('open');
+
       locationsList.innerHTML = '';
 
       for (let i = 0; i < filtered.length; i++) {
@@ -38,5 +40,6 @@ export function initAutocompleteValSelection() {
 
     searchInput.value = selectedLi.textContent;
     autocompleteResults.classList.remove('open');
+    locationsList.innerHTML = '';
   });
 }
