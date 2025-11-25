@@ -1,4 +1,5 @@
 import cities from 'cities.json';
+import fetchData from './dataFetching';
 
 const autocompleteResults = document.querySelector('#autocompleteResults');
 const searchInput = document.querySelector('#searchInput');
@@ -39,6 +40,7 @@ export function initAutocompleteValSelection() {
     const selectedLi = e.target.closest('li');
 
     searchInput.value = selectedLi.textContent;
+    fetchData(searchInput.value);
     autocompleteResults.classList.remove('open');
     locationsList.innerHTML = '';
   });

@@ -317,20 +317,18 @@ select {
     font-size: clamp(1rem, 0.909rem + 0.45vw, 1.25rem);
     color: var(--clr-text-secondary);
 
-    &:not(:first-child) {
+    
       .digit {
         gap: 0.5rem;
-        > p {
-          font-size: 1.5rem;
-        }
       }
-    }
+    
 
     .digit {
       display: flex;
       align-items: center;
       gap: 1rem;
 
+      img,
       svg {
         width: 2rem;
         height: 2rem;
@@ -391,7 +389,7 @@ select {
   margin-bottom: 2.5rem;
 
   &::-webkit-scrollbar {
-    height: 8px;
+    height: 6px;
   }
 
   &::-webkit-scrollbar-track {
@@ -494,6 +492,10 @@ select {
           font-size: 1.25rem;
         }
       }
+
+      .search-icon {
+        top: 0.95rem;
+      }
     }
   }
 
@@ -515,23 +517,18 @@ select {
       border-radius: 3.5rem;
       flex: 1;
 
-      &:not(:first-child) {
-        .digit {
-          gap: 1rem;
-          > p {
-            font-size: 2.5rem;
-          }
+      .digit {
+        gap: 1rem;
+        > p {
+          font-size: 2.5rem;
         }
       }
 
       .digit {
+        img,
         svg {
           width: 3.25rem;
           height: 3.25rem;
-        }
-
-        > p {
-          font-size: 3.5rem;
         }
       }
 
@@ -543,7 +540,7 @@ select {
 
   .weather-details {
     grid-template-columns: repeat(5, 1fr);
-    padding: 0 1rem;
+    padding: 0;
     margin-bottom: 4rem;
 
     svg {
@@ -555,6 +552,10 @@ select {
         font-size: 1.25rem;
         margin-bottom: 0.5rem;
       }
+    }
+
+    .weather-details-item {
+      justify-content: center;
     }
   }
 
