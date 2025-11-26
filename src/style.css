@@ -317,11 +317,9 @@ select {
     font-size: clamp(1rem, 0.909rem + 0.45vw, 1.25rem);
     color: var(--clr-text-secondary);
 
-    
-      .digit {
-        gap: 0.5rem;
-      }
-    
+    .digit {
+      gap: 0.5rem;
+    }
 
     .digit {
       display: flex;
@@ -383,7 +381,7 @@ select {
 }
 
 .hourly-forecast {
-  overflow-x: scroll;
+  overflow-x: auto;
   display: flex;
   gap: 0.5rem;
   margin-bottom: 2.5rem;
@@ -404,16 +402,25 @@ select {
 
   .hour {
     display: flex;
-    width: 4.25rem;
+    width: fit-content;
     padding: 1rem;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.5rem;
     border-radius: 1rem;
     background: var(--clr-bg-card-dark);
     color: var(--clr-text-primary);
     margin-bottom: 2rem;
+
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    span {
+      color: var(--clr-text-secondary);
+    }
   }
 }
 
@@ -527,8 +534,8 @@ select {
       .digit {
         img,
         svg {
-          width: 3.25rem;
-          height: 3.25rem;
+          width: 2.5rem;
+          height: 2.5rem;
         }
       }
 
