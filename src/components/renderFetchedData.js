@@ -29,7 +29,7 @@ const ICONS = {
   THUNDER_SHOWERS_NIGHT: 'thunder-showers-night',
 };
 
-export function renderWeatherDetailsData(data) {
+export function renderWeatherDetailsData(address, conditions, days) {
   const locationEl = document.querySelector('#location');
   const dateTimeEl = document.querySelector('#dateTime');
   const todaysTempEl = document.querySelector('#todaysTemp');
@@ -46,47 +46,43 @@ export function renderWeatherDetailsData(data) {
   const sunriseEl = document.querySelector('#sunrise');
   const sunsetEl = document.querySelector('#sunset');
 
-  locationEl.textContent = data.address;
+  locationEl.textContent = address;
   dateTimeEl.textContent = getCurrentDate();
-  todaysTempEl.textContent =
-    Math.round(data.currentConditions.temp) + ' ' + UNITS.CELCIUS;
+  todaysTempEl.textContent = Math.round(conditions.temp) + ' ' + UNITS.CELCIUS;
 
-  loadIcon(todaysTempIcon, data.currentConditions.icon);
+  loadIcon(todaysTempIcon, conditions.icon);
 
-  maxTempEl.textContent =
-    Math.round(data.days[0].tempmax) + ' ' + UNITS.CELCIUS;
-  minTempEl.textContent =
-    Math.round(data.days[0].tempmin) + ' ' + UNITS.CELCIUS;
+  maxTempEl.textContent = Math.round(days[0].tempmax) + ' ' + UNITS.CELCIUS;
+  minTempEl.textContent = Math.round(days[0].tempmin) + ' ' + UNITS.CELCIUS;
   feelsLikeEl.textContent =
-    Math.round(data.currentConditions.feelslike) + ' ' + UNITS.CELCIUS;
-  descriptionEl.textContent = data.currentConditions.conditions;
+    Math.round(conditions.feelslike) + ' ' + UNITS.CELCIUS;
+  descriptionEl.textContent = conditions.conditions;
 
   windSpeedEl.textContent = getValueOrDefault(
-    Math.round(data.currentConditions.windspeed),
+    Math.round(conditions.windspeed),
     UNITS.KMH,
   );
   gustsEl.textContent = getValueOrDefault(
-    Math.round(data.currentConditions.windgust),
+    Math.round(conditions.windgust),
     UNITS.KMH,
   );
 
-  uvEl.textContent = data.currentConditions.uvindex;
+  uvEl.textContent = conditions.uvindex;
   humidityEl.textContent = getValueOrDefault(
-    Math.round(data.currentConditions.humidity),
+    Math.round(conditions.humidity),
     UNITS.PERCENT,
   );
-  rainChanceEl.textContent = data.currentConditions.precipprob + UNITS.PERCENT;
+  rainChanceEl.textContent = conditions.precipprob + UNITS.PERCENT;
 
-  sunriseEl.textContent = formatTime(data.currentConditions.sunrise);
-  sunsetEl.textContent = formatTime(data.currentConditions.sunset);
+  sunriseEl.textContent = formatTime(conditions.sunrise);
+  sunsetEl.textContent = formatTime(conditions.sunset);
 }
 
-export function renderHourlyForecastData(data) {
-  const todayHours = data.days[0].hours;
+export function renderHourlyForecastData(day) {
+  const todayHours = day.hours;
   const currentHour = new Date().getHours();
 
   const filteredHours = todayHours.slice(currentHour);
-  console.log(filteredHours);
 
   filteredHours.forEach((hour, index) => {
     const container = document.querySelector('.hourly-forecast');
@@ -115,6 +111,10 @@ export function renderHourlyForecastData(data) {
   });
 }
 
+export function renderWeeklyForecastData(days) {
+  console.log(days);
+}
+
 function loadIcon(element, icon) {
   if (icon === ICONS.SNOW_SHOWERS_DAY || icon === ICONS.SNOW_SHOWERS_NIGHT) {
     import('../assets/img/hail.svg').then(
@@ -131,6 +131,5 @@ function loadIcon(element, icon) {
     import(`../assets/img/${icon}.svg`).then(
       (module) => (element.src = module.default),
     );
-    console.log(icon);
   }
 }

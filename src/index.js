@@ -8,6 +8,7 @@ import fetchData from './components/dataFetching';
 import {
   renderWeatherDetailsData,
   renderHourlyForecastData,
+  renderWeeklyForecastData,
 } from './components/renderFetchedData';
 
 function initApp() {
@@ -17,8 +18,13 @@ function initApp() {
   initAutocompleteValSelection();
   let data = fetchData(DEFAULT_LOCATION);
   data.then((result) => {
-    renderWeatherDetailsData(result);
-    renderHourlyForecastData(result);
+    renderWeatherDetailsData(
+      result.address,
+      result.currentConditions,
+      result.days,
+    );
+    renderHourlyForecastData(result.days[0]);
+    renderWeeklyForecastData(result.days);
   });
 }
 
