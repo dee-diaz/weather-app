@@ -5,31 +5,36 @@ import {
   initAutocompleteValSelection,
 } from './components/autocomplete';
 import fetchData from './components/dataFetching';
-import { format, parse } from 'date-fns';
+import {
+  getCurrentDate,
+  formatTime,
+  getValueOrDefault,
+} from './components/utils';
+
+const UNITS = {
+  KMH: 'km/h',
+  MPH: 'mph',
+  CELCIUS: '°C',
+  FAHRENHEIT: '°F',
+  PERCENT: '%',
+};
 
 document.addEventListener('DOMContentLoaded', () => {
   initApp();
 });
 
 function initApp() {
-  const DEFAULT_LOCATION = 'Saint Petersburg, RU';
+  const DEFAULT_LOCATION = 'Cairo, EG';
   initToggleBtn();
   showAutocompleteOptions();
   initAutocompleteValSelection();
   let data = fetchData(DEFAULT_LOCATION);
   data.then((result) => {
-    renderFetchedData(result);
+    renderWeatherDetailsData(result);
   });
 }
 
-function renderFetchedData(data) {
-  const UNITS = {
-    KMH: 'km/h',
-    MPH: 'mph',
-    CELCIUS: '°C',
-    FAHRENHEIT: '°F',
-    PERCENT: '%',
-  };
+function renderWeatherDetailsData(data) {
   const locationEl = document.querySelector('#location');
   const dateTimeEl = document.querySelector('#dateTime');
   const todaysTempEl = document.querySelector('#todaysTemp');
@@ -74,19 +79,4 @@ function renderFetchedData(data) {
 
   sunriseEl.textContent = formatTime(data.currentConditions.sunrise);
   sunsetEl.textContent = formatTime(data.currentConditions.sunset);
-}
-
-// Utility functions
-function getCurrentDate() {
-  const date = new Date();
-  const formatted = format(date, 'MMMM d');
-  return formatted;
-}
-
-function formatTime(timeStr) {
-  return format(parse(timeStr, 'HH:mm:ss', new Date()), 'HH:mm');
-}
-
-function getValueOrDefault(value, unit) {
-  return !value ? 'N/A' : `${value} ${unit}`;
 }
