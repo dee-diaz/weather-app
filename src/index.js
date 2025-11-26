@@ -12,7 +12,7 @@ import {
 } from './components/renderFetchedData';
 
 function initApp() {
-  const DEFAULT_LOCATION = 'Saint Petersburg, RU';
+  const DEFAULT_LOCATION = 'Buenos Aires, AR';
   initToggleBtn();
   showAutocompleteOptions();
   initAutocompleteValSelection();

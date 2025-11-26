@@ -403,6 +403,7 @@ select {
   .hour {
     display: flex;
     width: fit-content;
+    min-width: 4.5rem;
     padding: 1rem;
     flex-direction: column;
     justify-content: center;
@@ -439,7 +440,7 @@ select {
     color: var(--clr-text-primary);
     font-size: 1.125rem;
 
-    .icon svg {
+    .icon img {
       width: 1.25rem;
       height: 1.25rem;
     }
@@ -584,7 +585,8 @@ select {
       border-radius: 1rem;
       font-size: 1rem;
 
-      .icon svg {
+      .icon img {
+        margin: 0 auto;
         width: 1.75rem;
         height: 1.75rem;
       }

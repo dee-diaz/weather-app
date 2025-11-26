@@ -1,4 +1,9 @@
-import { getCurrentDate, formatTime, getValueOrDefault } from './utils';
+import {
+  getCurrentDate,
+  formatTime,
+  getValueOrDefault,
+  formatDate,
+} from './utils';
 
 const UNITS = {
   KMH: 'km/h',
@@ -79,13 +84,12 @@ export function renderWeatherDetailsData(address, conditions, days) {
 }
 
 export function renderHourlyForecastData(day) {
+  const container = document.querySelector('.hourly-forecast');
   const todayHours = day.hours;
   const currentHour = new Date().getHours();
-
   const filteredHours = todayHours.slice(currentHour);
 
   filteredHours.forEach((hour, index) => {
-    const container = document.querySelector('.hourly-forecast');
     const div = document.createElement('div');
     div.className = 'hour';
     const para = document.createElement('p');
@@ -112,7 +116,40 @@ export function renderHourlyForecastData(day) {
 }
 
 export function renderWeeklyForecastData(days) {
-  console.log(days);
+  const container = document.querySelector('.weekly-forecast');
+  const eightDays = days.slice(1, 9);
+  console.log(eightDays);
+
+  eightDays.forEach((day) => {
+    const li = document.createElement('li');
+    const dayName = document.createElement('p');
+    dayName.className = 'day';
+    dayName.textContent = formatDate(day.datetime);
+    const divIcon = document.createElement('div');
+    divIcon.className = 'icon';
+    const iconImg = document.createElement('img');
+    loadIcon(iconImg, day.icon);
+    const minMax = document.createElement('p');
+    const min = document.createElement('span');
+    min.className = 'min';
+    min.textContent = Math.round(day.tempmin) + UNITS.CELCIUS;
+    const max = document.createElement('span');
+    max.className = 'max';
+    max.textContent = Math.round(day.tempmax) + UNITS.CELCIUS;
+    const hyphen = document.createElement('span');
+    hyphen.textContent = ' - ';
+
+    divIcon.appendChild(iconImg);
+    minMax.appendChild(min);
+    minMax.appendChild(hyphen);
+    minMax.appendChild(max);
+
+    li.appendChild(dayName);
+    li.appendChild(divIcon);
+    li.appendChild(minMax);
+
+    container.appendChild(li);
+  });
 }
 
 function loadIcon(element, icon) {

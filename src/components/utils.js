@@ -1,4 +1,4 @@
-import { format, parse } from 'date-fns';
+import { format, parse, parseISO } from 'date-fns';
 
 // Utility functions
 export function getCurrentDate() {
@@ -13,4 +13,10 @@ export function formatTime(timeStr) {
 
 export function getValueOrDefault(value, unit) {
   return !value ? 'N/A' : `${value} ${unit}`;
+}
+
+export function formatDate(dateStr) {
+  const date = parseISO(dateStr);
+  const dayOfWeek = format(date, 'EEE');
+  return dayOfWeek;
 }
