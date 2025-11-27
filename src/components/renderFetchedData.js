@@ -1,9 +1,6 @@
-import {
-  getCurrentDate,
-  formatTime,
-  getValueOrDefault,
-  formatDate,
-} from './utils';
+import { formatTime, getValueOrDefault, formatDate } from './utils';
+import { formatInTimeZone } from 'date-fns-tz';
+import { fromUnixTime } from 'date-fns';
 
 const UNITS = {
   KMH: 'km/h',
@@ -34,7 +31,7 @@ const ICONS = {
   THUNDER_SHOWERS_NIGHT: 'thunder-showers-night',
 };
 
-export function renderWeatherDetailsData(address, conditions, days) {
+export function renderWeatherDetailsData(address, conditions, days, timezone) {
   const locationEl = document.querySelector('#location');
   const dateTimeEl = document.querySelector('#dateTime');
   const todaysTempEl = document.querySelector('#todaysTemp');
@@ -52,7 +49,7 @@ export function renderWeatherDetailsData(address, conditions, days) {
   const sunsetEl = document.querySelector('#sunset');
 
   locationEl.textContent = address;
-  dateTimeEl.textContent = getCurrentDate();
+  dateTimeEl.textContent = formatInTimeZone(new Date(), timezone, 'MMMM d');
   todaysTempEl.textContent = Math.round(conditions.temp) + ' ' + UNITS.CELCIUS;
 
   loadIcon(todaysTempIcon, conditions.icon);
@@ -79,15 +76,17 @@ export function renderWeatherDetailsData(address, conditions, days) {
   );
   rainChanceEl.textContent = conditions.precipprob + UNITS.PERCENT;
 
-  sunriseEl.textContent = formatTime(conditions.sunrise);
-  sunsetEl.textContent = formatTime(conditions.sunset);
+  const sunrise = fromUnixTime(days[0].sunriseEpoch);
+  const sunset = fromUnixTime(days[0].sunsetEpoch);
+  sunriseEl.textContent = formatInTimeZone(sunrise, timezone, 'HH:mm');
+  sunsetEl.textContent = formatInTimeZone(sunset, timezone, 'HH:mm');
 }
 
-export function renderHourlyForecastData(day) {
+export function renderHourlyForecastData(day, timezone) {
   const container = document.querySelector('.hourly-forecast');
   const todayHours = day.hours;
-  const currentHour = new Date().getHours();
-  const filteredHours = todayHours.slice(currentHour);
+  const localTime = formatInTimeZone(new Date(), timezone, 'HH');
+  const filteredHours = todayHours.slice(localTime);
 
   filteredHours.forEach((hour, index) => {
     const div = document.createElement('div');

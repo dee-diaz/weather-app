@@ -12,7 +12,7 @@ import {
 } from './components/renderFetchedData';
 
 function initApp() {
-  const DEFAULT_LOCATION = 'Buenos Aires, AR';
+  const DEFAULT_LOCATION = 'Kiribati';
   initToggleBtn();
   showAutocompleteOptions();
   initAutocompleteValSelection();
@@ -22,8 +22,9 @@ function initApp() {
       result.address,
       result.currentConditions,
       result.days,
+      result.timezone,
     );
-    renderHourlyForecastData(result.days[0]);
+    renderHourlyForecastData(result.days[0], result.timezone);
     renderWeeklyForecastData(result.days);
   });
 }
