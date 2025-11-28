@@ -252,9 +252,10 @@ select {
 
       &.open {
         height: auto;
-        
+
         > ul {
           border: 1px solid var(--clr-divider);
+          border-top: none;
         }
       }
       > ul {

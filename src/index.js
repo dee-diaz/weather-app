@@ -20,6 +20,7 @@ function initApp() {
 
   initToggleScales(changeScale);
   showAutocompleteOptions();
+
   let data = fetchData(DEFAULT_LOCATION);
   data.then((result) => {
     lastData = result;
