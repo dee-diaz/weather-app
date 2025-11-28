@@ -7,9 +7,12 @@ async function fetchData(location) {
   const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodedLocation}?unitGroup=metric&key=${API_KEY}`;
 
   try {
-    const data = await fetch(url);
-    const result = await data.json();
-    return result;
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
   } catch (error) {
     throw new Error(error);
   }
