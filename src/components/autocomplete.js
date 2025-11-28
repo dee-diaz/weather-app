@@ -2,6 +2,8 @@ const autocompleteResults = document.querySelector('#autocompleteResults');
 const searchInput = document.querySelector('#searchInput');
 const locationsList = autocompleteResults.querySelector('ul');
 
+let debounceTimer;
+
 async function showAutocompleteOptions() {
   searchInput.addEventListener('input', async () => {
     const query = searchInput.value.trim();
@@ -11,39 +13,43 @@ async function showAutocompleteOptions() {
       return;
     }
 
-    if (query.length > 0) {
-      autocompleteResults.classList.add('open');
+    clearTimeout(debounceTimer);
 
-      try {
-        const response = await fetch(
-          `https://secure.geonames.org/searchJSON?name_startsWith=${query}&maxRows=5&username=deediaz13&featureClass=P&orderby=population`,
-        );
-        const data = await response.json();
+    debounceTimer = setTimeout(async () => {
+      if (query.length > 0) {
+        autocompleteResults.classList.add('open');
 
-        if (!data.geonames || data.geonames.length === 0) {
-          autocompleteResults.classList.remove('open');
-          return;
-        }
+        try {
+          const response = await fetch(
+            `https://secure.geonames.org/searchJSON?name_startsWith=${query}&maxRows=5&username=deediaz13&featureClass=P&orderby=population`,
+          );
+          const data = await response.json();
 
-        locationsList.innerHTML = '';
-
-        data.geonames.forEach((city) => {
-          const li = document.createElement('li');
-          let location;
-          if (city.adminName1 && city.adminName1 !== city.name) {
-            location = `${city.name}, ${city.adminName1}, ${city.countryCode}`;
-          } else {
-            location = `${city.name}, ${city.countryCode}`;
+          if (!data.geonames || data.geonames.length === 0) {
+            autocompleteResults.classList.remove('open');
+            return;
           }
 
-          li.textContent = location;
-          locationsList.appendChild(li);
-        });
-      } catch (error) {
-        console.error('Error fetching cities:', error);
-        autocompleteResults.classList.remove('open');
+          locationsList.innerHTML = '';
+
+          data.geonames.forEach((city) => {
+            const li = document.createElement('li');
+            let location;
+            if (city.adminName1 && city.adminName1 !== city.name) {
+              location = `${city.name}, ${city.adminName1}, ${city.countryCode}`;
+            } else {
+              location = `${city.name}, ${city.countryCode}`;
+            }
+
+            li.textContent = location;
+            locationsList.appendChild(li);
+          });
+        } catch (error) {
+          console.error('Error fetching cities:', error);
+          autocompleteResults.classList.remove('open');
+        }
       }
-    }
+    }, 300);
   });
 }
 
