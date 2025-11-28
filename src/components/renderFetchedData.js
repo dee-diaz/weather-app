@@ -1,8 +1,14 @@
 import { formatTime, getValueOrDefault, formatDate } from './utils';
 import { formatInTimeZone } from 'date-fns-tz';
 import { fromUnixTime } from 'date-fns';
+import { convertCtoF } from './utils';
 
-const UNITS = {
+const todaysTempEl = document.querySelector('#todaysTemp');
+const maxTempEl = document.querySelector('#maxTemp');
+const minTempEl = document.querySelector('#minTemp');
+const feelsLikeEl = document.querySelector('#feelsLike');
+
+export const UNITS = {
   KMH: 'km/h',
   MPH: 'mph',
   CELCIUS: '°C',
@@ -34,11 +40,7 @@ const ICONS = {
 export function renderWeatherDetailsData(address, conditions, days, timezone) {
   const locationEl = document.querySelector('#location');
   const dateTimeEl = document.querySelector('#dateTime');
-  const todaysTempEl = document.querySelector('#todaysTemp');
   const todaysTempIcon = document.querySelector('#todaysTempIcon');
-  const maxTempEl = document.querySelector('#maxTemp');
-  const minTempEl = document.querySelector('#minTemp');
-  const feelsLikeEl = document.querySelector('#feelsLike');
   const descriptionEl = document.querySelector('#description');
   const windSpeedEl = document.querySelector('#wind-speed');
   const gustsEl = document.querySelector('#gusts');
@@ -82,8 +84,9 @@ export function renderWeatherDetailsData(address, conditions, days, timezone) {
   sunsetEl.textContent = formatInTimeZone(sunset, timezone, 'HH:mm');
 }
 
-export function renderHourlyForecastData(day, timezone) {
+export function renderHourlyForecastData(day, timezone, scale) {
   const container = document.querySelector('.hourly-forecast');
+  container.innerHTML = '';
   const todayHours = day.hours;
   const localTime = formatInTimeZone(new Date(), timezone, 'HH');
   const filteredHours = todayHours.slice(localTime);
@@ -104,7 +107,11 @@ export function renderHourlyForecastData(day, timezone) {
 
     const span = document.createElement('span');
     span.setAttribute('data-hourly-temp', '');
-    span.textContent = Math.round(hour.temp) + ' ' + UNITS.CELCIUS;
+    if (scale === UNITS.CELCIUS) {
+      span.textContent = Math.round(hour.temp) + ` ${UNITS.CELCIUS}`;
+    } else {
+      span.textContent = convertCtoF(hour.temp) + ` ${UNITS.FAHRENHEIT}`;
+    }
 
     iconDiv.appendChild(iconImg);
     div.appendChild(para);
@@ -114,10 +121,10 @@ export function renderHourlyForecastData(day, timezone) {
   });
 }
 
-export function renderWeeklyForecastData(days) {
+export function renderWeeklyForecastData(days, scale) {
   const container = document.querySelector('.weekly-forecast');
+  container.innerHTML = '';
   const eightDays = days.slice(1, 9);
-  console.log(eightDays);
 
   eightDays.forEach((day) => {
     const li = document.createElement('li');
@@ -131,10 +138,16 @@ export function renderWeeklyForecastData(days) {
     const minMax = document.createElement('p');
     const min = document.createElement('span');
     min.className = 'min';
-    min.textContent = Math.round(day.tempmin) + UNITS.CELCIUS;
     const max = document.createElement('span');
     max.className = 'max';
-    max.textContent = Math.round(day.tempmax) + UNITS.CELCIUS;
+    if (scale === UNITS.CELCIUS) {
+      max.textContent = Math.round(day.tempmax) + ` ${UNITS.CELCIUS}`;
+      min.textContent = Math.round(day.tempmin) + ` ${UNITS.CELCIUS}`;
+    } else {
+      max.textContent = convertCtoF(day.tempmax) + ` ${UNITS.FAHRENHEIT}`;
+      min.textContent = convertCtoF(day.tempmin) + ` ${UNITS.FAHRENHEIT}`;
+    }
+
     const hyphen = document.createElement('span');
     hyphen.textContent = ' - ';
 
@@ -167,5 +180,21 @@ function loadIcon(element, icon) {
     import(`../assets/img/${icon}.svg`).then(
       (module) => (element.src = module.default),
     );
+  }
+}
+
+export function rerenderWeatherDetails(activeScale, conditions, days) {
+  if (activeScale === UNITS.FAHRENHEIT) {
+    todaysTempEl.textContent = convertCtoF(conditions.temp) + ` ${activeScale}`;
+    maxTempEl.textContent = convertCtoF(days[0].tempmax) + ` ${activeScale}`;
+    minTempEl.textContent = convertCtoF(days[0].tempmin) + ` ${activeScale}`;
+    feelsLikeEl.textContent =
+      convertCtoF(conditions.feelslike) + ` ${activeScale}`;
+  } else if (activeScale === UNITS.CELCIUS) {
+    todaysTempEl.textContent = conditions.temp + ` ${activeScale}`;
+    maxTempEl.textContent = Math.round(days[0].tempmax) + ` ${activeScale}`;
+    minTempEl.textContent = Math.round(days[0].tempmin) + ` ${activeScale}`;
+    feelsLikeEl.textContent =
+      Math.round(conditions.feelslike) + ` ${activeScale}`;
   }
 }

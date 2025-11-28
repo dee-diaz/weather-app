@@ -1,5 +1,5 @@
 import './style.css';
-import initToggleBtn from './components/toggleButton';
+import initToggleScales from './components/toggleButton';
 import {
   showAutocompleteOptions,
   initAutocompleteValSelection,
@@ -9,24 +9,43 @@ import {
   renderWeatherDetailsData,
   renderHourlyForecastData,
   renderWeeklyForecastData,
+  rerenderWeatherDetails,
+  UNITS,
 } from './components/renderFetchedData';
 
 function initApp() {
-  const DEFAULT_LOCATION = 'Kiribati';
-  initToggleBtn();
+  const DEFAULT_LOCATION = 'Buenos Aires, AR';
+  let activeScale = UNITS.CELCIUS;
+  let lastData;
+
+  initToggleScales(changeScale);
   showAutocompleteOptions();
   initAutocompleteValSelection();
   let data = fetchData(DEFAULT_LOCATION);
   data.then((result) => {
+    lastData = result;
     renderWeatherDetailsData(
       result.address,
       result.currentConditions,
       result.days,
       result.timezone,
     );
-    renderHourlyForecastData(result.days[0], result.timezone);
-    renderWeeklyForecastData(result.days);
+    renderHourlyForecastData(result.days[0], result.timezone, activeScale);
+    renderWeeklyForecastData(result.days, activeScale);
   });
+
+  function changeScale() {
+    activeScale === UNITS.CELCIUS
+      ? (activeScale = UNITS.FAHRENHEIT)
+      : (activeScale = UNITS.CELCIUS);
+    rerenderWeatherDetails(
+      activeScale,
+      lastData.currentConditions,
+      lastData.days,
+    );
+    renderHourlyForecastData(lastData.days[0], lastData.timezone, activeScale);
+    renderWeeklyForecastData(lastData.days, activeScale);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
