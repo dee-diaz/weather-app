@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunktask_management_app=self.webpackChunktask_management_app||[]).push([[138],{138:(e,a,p)=>{e.exports=p.p+"df2be0b230048394bd75.svg"}}]);
