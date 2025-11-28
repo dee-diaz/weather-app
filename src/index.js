@@ -21,8 +21,19 @@ function initApp() {
   initToggleScales(changeScale);
   showAutocompleteOptions();
 
-  let data = fetchData(DEFAULT_LOCATION);
-  data.then((result) => {
+  fetchData(DEFAULT_LOCATION).then(renderAllWeatherData);
+
+  autocompleteResults.addEventListener('click', (e) => {
+    const selectedLi = e.target.closest('li');
+    searchInput.value = selectedLi.textContent;
+
+    fetchData(searchInput.value).then(renderAllWeatherData);
+
+    autocompleteResults.classList.remove('open');
+    locationsList.innerHTML = '';
+  });
+
+  function renderAllWeatherData(result) {
     lastData = result;
     renderWeatherDetailsData(
       result.address,
@@ -32,27 +43,7 @@ function initApp() {
     );
     renderHourlyForecastData(result.days[0], result.timezone, activeScale);
     renderWeeklyForecastData(result.days, activeScale);
-  });
-
-  autocompleteResults.addEventListener('click', (e) => {
-    const selectedLi = e.target.closest('li');
-
-    searchInput.value = selectedLi.textContent;
-    let data = fetchData(searchInput.value);
-    data.then((result) => {
-      lastData = result;
-      renderWeatherDetailsData(
-        result.address,
-        result.currentConditions,
-        result.days,
-        result.timezone,
-      );
-      renderHourlyForecastData(result.days[0], result.timezone, activeScale);
-      renderWeeklyForecastData(result.days, activeScale);
-    });
-    autocompleteResults.classList.remove('open');
-    locationsList.innerHTML = '';
-  });
+  }
 
   function changeScale() {
     activeScale === UNITS.CELCIUS
