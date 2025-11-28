@@ -16,7 +16,7 @@ async function showAutocompleteOptions() {
 
       try {
         const response = await fetch(
-          `http://api.geonames.org/searchJSON?name_startsWith=${query}&maxRows=5&username=deediaz13&featureClass=P&orderby=population`,
+          `https://secure.geonames.org/searchJSON?name_startsWith=${query}&maxRows=5&username=deediaz13&featureClass=P&orderby=population`,
         );
         const data = await response.json();
 

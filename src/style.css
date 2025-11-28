@@ -138,6 +138,7 @@ select {
   }
 }
 
+
 .content-wrapper {
   min-height: 100vh;
   min-height: 100svh;
@@ -252,7 +253,7 @@ select {
 
       &.open {
         height: auto;
-
+        
         > ul {
           border: 1px solid var(--clr-divider);
           border-top: none;
@@ -575,7 +576,6 @@ select {
     margin-bottom: 6rem;
 
     .hour {
-      margin-bottom: 0;
       flex: 1 0 4.5rem;
       min-width: 4.5rem;
     }
