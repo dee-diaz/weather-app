@@ -1,35 +1,49 @@
-import cities from 'cities.json';
 import fetchData from './dataFetching';
 
 const autocompleteResults = document.querySelector('#autocompleteResults');
 const searchInput = document.querySelector('#searchInput');
 const locationsList = autocompleteResults.querySelector('ul');
 
-export function showAutocompleteOptions() {
-  searchInput.addEventListener('input', () => {
-    if (searchInput.value.length === 0)
+export async function showAutocompleteOptions() {
+  searchInput.addEventListener('input', async () => {
+    const query = searchInput.value.trim();
+
+    if (query.length === 0) {
       autocompleteResults.classList.remove('open');
-    if (searchInput.value.length > 0) {
-      const val = searchInput.value.toLowerCase();
+      return;
+    }
+
+    if (query.length > 0) {
       autocompleteResults.classList.add('open');
 
-      const filtered = cities.filter((city) => {
-        if (city.name.toLowerCase().startsWith(val)) {
-          return city;
+      try {
+        const response = await fetch(
+          `http://api.geonames.org/searchJSON?name_startsWith=${query}&maxRows=5&username=deediaz13&featureClass=P&orderby=population`,
+        );
+        const data = await response.json();
+
+        if (!data.geonames || data.geonames.length === 0) {
+          autocompleteResults.classList.remove('open');
+          return;
         }
-      });
 
-      if (filtered.length === 0) autocompleteResults.classList.remove('open');
+        locationsList.innerHTML = '';
 
-      locationsList.innerHTML = '';
+        data.geonames.forEach((city) => {
+          const li = document.createElement('li');
+          let location;
+          if (city.adminName1 && city.adminName1 !== city.name) {
+            location = `${city.name}, ${city.adminName1}, ${city.countryCode}`;
+          } else {
+            location = `${city.name}, ${city.countryCode}`;
+          }
 
-      for (let i = 0; i < filtered.length; i++) {
-        if (i === 5) break;
-
-        const li = document.createElement('li');
-        li.textContent = `${filtered[i].name}, ${filtered[i].country}`;
-
-        locationsList.appendChild(li);
+          li.textContent = location;
+          locationsList.appendChild(li);
+        });
+      } catch (error) {
+        console.error('Error fetching cities:', error);
+        autocompleteResults.classList.remove('open');
       }
     }
   });

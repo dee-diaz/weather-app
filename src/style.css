@@ -252,11 +252,14 @@ select {
 
       &.open {
         height: auto;
+        
+        > ul {
+          border: 1px solid var(--clr-divider);
+        }
       }
       > ul {
         display: grid;
         color: var(--clr-text-primary);
-        border: 1px solid var(--clr-divider);
         border-radius: 1.25rem;
         overflow: hidden;
 

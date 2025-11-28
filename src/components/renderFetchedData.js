@@ -164,6 +164,22 @@ export function renderWeeklyForecastData(days, scale) {
   });
 }
 
+export function rerenderWeatherDetails(activeScale, conditions, days) {
+  if (activeScale === UNITS.FAHRENHEIT) {
+    todaysTempEl.textContent = convertCtoF(conditions.temp) + ` ${activeScale}`;
+    maxTempEl.textContent = convertCtoF(days[0].tempmax) + ` ${activeScale}`;
+    minTempEl.textContent = convertCtoF(days[0].tempmin) + ` ${activeScale}`;
+    feelsLikeEl.textContent =
+      convertCtoF(conditions.feelslike) + ` ${activeScale}`;
+  } else if (activeScale === UNITS.CELCIUS) {
+    todaysTempEl.textContent = conditions.temp + ` ${activeScale}`;
+    maxTempEl.textContent = Math.round(days[0].tempmax) + ` ${activeScale}`;
+    minTempEl.textContent = Math.round(days[0].tempmin) + ` ${activeScale}`;
+    feelsLikeEl.textContent =
+      Math.round(conditions.feelslike) + ` ${activeScale}`;
+  }
+}
+
 function loadIcon(element, icon) {
   if (icon === ICONS.SNOW_SHOWERS_DAY || icon === ICONS.SNOW_SHOWERS_NIGHT) {
     import('../assets/img/hail.svg').then(
@@ -180,21 +196,5 @@ function loadIcon(element, icon) {
     import(`../assets/img/${icon}.svg`).then(
       (module) => (element.src = module.default),
     );
-  }
-}
-
-export function rerenderWeatherDetails(activeScale, conditions, days) {
-  if (activeScale === UNITS.FAHRENHEIT) {
-    todaysTempEl.textContent = convertCtoF(conditions.temp) + ` ${activeScale}`;
-    maxTempEl.textContent = convertCtoF(days[0].tempmax) + ` ${activeScale}`;
-    minTempEl.textContent = convertCtoF(days[0].tempmin) + ` ${activeScale}`;
-    feelsLikeEl.textContent =
-      convertCtoF(conditions.feelslike) + ` ${activeScale}`;
-  } else if (activeScale === UNITS.CELCIUS) {
-    todaysTempEl.textContent = conditions.temp + ` ${activeScale}`;
-    maxTempEl.textContent = Math.round(days[0].tempmax) + ` ${activeScale}`;
-    minTempEl.textContent = Math.round(days[0].tempmin) + ` ${activeScale}`;
-    feelsLikeEl.textContent =
-      Math.round(conditions.feelslike) + ` ${activeScale}`;
   }
 }
