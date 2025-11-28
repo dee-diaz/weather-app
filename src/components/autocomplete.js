@@ -1,10 +1,8 @@
-import fetchData from './dataFetching';
-
 const autocompleteResults = document.querySelector('#autocompleteResults');
 const searchInput = document.querySelector('#searchInput');
 const locationsList = autocompleteResults.querySelector('ul');
 
-export async function showAutocompleteOptions() {
+async function showAutocompleteOptions() {
   searchInput.addEventListener('input', async () => {
     const query = searchInput.value.trim();
 
@@ -49,13 +47,4 @@ export async function showAutocompleteOptions() {
   });
 }
 
-export function initAutocompleteValSelection() {
-  autocompleteResults.addEventListener('click', (e) => {
-    const selectedLi = e.target.closest('li');
-
-    searchInput.value = selectedLi.textContent;
-    fetchData(searchInput.value);
-    autocompleteResults.classList.remove('open');
-    locationsList.innerHTML = '';
-  });
-}
+export default showAutocompleteOptions;

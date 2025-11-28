@@ -166,17 +166,21 @@ export function renderWeeklyForecastData(days, scale) {
 
 export function rerenderWeatherDetails(activeScale, conditions, days) {
   if (activeScale === UNITS.FAHRENHEIT) {
-    todaysTempEl.textContent = convertCtoF(conditions.temp) + ` ${activeScale}`;
-    maxTempEl.textContent = convertCtoF(days[0].tempmax) + ` ${activeScale}`;
-    minTempEl.textContent = convertCtoF(days[0].tempmin) + ` ${activeScale}`;
+    todaysTempEl.textContent =
+      convertCtoF(conditions.temp) + ` ${UNITS.FAHRENHEIT}`;
+    maxTempEl.textContent =
+      convertCtoF(days[0].tempmax) + ` ${UNITS.FAHRENHEIT}`;
+    minTempEl.textContent =
+      convertCtoF(days[0].tempmin) + ` ${UNITS.FAHRENHEIT}`;
     feelsLikeEl.textContent =
       convertCtoF(conditions.feelslike) + ` ${activeScale}`;
   } else if (activeScale === UNITS.CELCIUS) {
-    todaysTempEl.textContent = conditions.temp + ` ${activeScale}`;
-    maxTempEl.textContent = Math.round(days[0].tempmax) + ` ${activeScale}`;
-    minTempEl.textContent = Math.round(days[0].tempmin) + ` ${activeScale}`;
+    todaysTempEl.textContent =
+      Math.round(conditions.temp) + ` ${UNITS.CELCIUS}`;
+    maxTempEl.textContent = Math.round(days[0].tempmax) + ` ${UNITS.CELCIUS}`;
+    minTempEl.textContent = Math.round(days[0].tempmin) + ` ${UNITS.CELCIUS}`;
     feelsLikeEl.textContent =
-      Math.round(conditions.feelslike) + ` ${activeScale}`;
+      Math.round(conditions.feelslike) + ` ${UNITS.CELCIUS}`;
   }
 }
 

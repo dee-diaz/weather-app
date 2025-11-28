@@ -9,7 +9,6 @@ async function fetchData(location) {
   try {
     const data = await fetch(url);
     const result = await data.json();
-    console.log(result);
     return result;
   } catch (error) {
     throw new Error(error);
