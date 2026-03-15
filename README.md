@@ -5,7 +5,6 @@ A weather web app focused on clean UI and fast city-based forecasting. The appli
 The project is built to demonstrate production-minded frontend fundamentals with modular JavaScript, async API integration, reusable rendering utilities, and responsive interface design.
 
 **[Live Preview](https://dee-diaz.github.io/weather-app/)**
-**[Issues](https://github.com/dee-diaz/vinyl-store/issues/)**
 
 ![Project screenshot](screenshot.png)
 
